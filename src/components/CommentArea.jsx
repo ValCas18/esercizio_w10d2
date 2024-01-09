@@ -78,7 +78,7 @@ const CommentArea = (props) => {
 		<div className="text-center">
 			{setIsLoading(false) && <Loading />}
 			{setIsError && <Error />}
-			<AddComment asin={this.props.asin} />
+			<AddComment asin={asin} />
 			<CommentList commentsToShow={comments} />
 		</div>
 	);
