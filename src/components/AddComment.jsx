@@ -14,29 +14,29 @@ const AddComment = (props) => {
 	const [comment, setComment] = useState({
 		comment: "",
 		rate: 1,
-		elementId: this.props.asin,
+		elementId: null,
 	});
 
-	useEffect(() => {
-		const pippo = (prevProps) => {
-			if (prevProps.asin !== props.asin) {
-				setComment({
-					...comment,
-					elementId: props.asin,
-				});
-			}
-		};
-	}, [props]);
+	/*const pippo = (prevProps) => {
+		if (prevProps.asin !== props.asin) {
+			setComment({
+				...comment,
+				elementId: props.asin,
+			});
+		}
+	};
+
+	useEffect(() => pippo(), [props]);*/
 
 	const sendComment = async (e) => {
 		e.preventDefault();
 		try {
 			let response = await fetch("https://striveschool-api.herokuapp.com/api/comments", {
 				method: "POST",
-				body: JSON.stringify(this.state.comment),
+				body: JSON.stringify(comment),
 				headers: {
 					"Content-type": "application/json",
-					Authorization: "Bearer inserisci-qui-il-tuo-token",
+					Authorization: "Bearer QKi75oRu6XUobvQpFLigh2thmbG5Mv4W1mOeUws4eMP4xJYyZWcQQSdi",
 				},
 			});
 			if (response.ok) {
@@ -53,11 +53,10 @@ const AddComment = (props) => {
 			alert(error);
 		}
 	};
-	useEffect(() => sendComment(), [props]);
 
 	return (
 		<div className="my-3">
-			<Form onSubmit={this.sendComment}>
+			<Form onSubmit={sendComment}>
 				<Form.Group className="mb-2">
 					<Form.Label>Recensione</Form.Label>
 					<Form.Control

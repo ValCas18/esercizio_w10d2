@@ -10,7 +10,7 @@ import { useState } from "react";
     selectedBook: null,
   }*/
 
-const BookList = (props) => {
+const BookList = ({ books }) => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedBook, setSelectedBook] = useState(null);
 
@@ -35,7 +35,7 @@ const BookList = (props) => {
 						</Col>
 					</Row>
 					<Row className="g-2 mt-3">
-						{props.books
+						{books
 							.filter((b) => b.title.toLowerCase().includes(searchQuery))
 							.map((b) => (
 								<Col xs={12} md={4} key={b.asin}>
