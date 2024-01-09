@@ -1,4 +1,4 @@
-import { Component, useState } from "react";
+import { useState } from "react";
 import CommentList from "./CommentList";
 import AddComment from "./AddComment";
 import Loading from "./Loading";
@@ -42,37 +42,35 @@ const CommentArea = (props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
 
-
-  useEffect(() => {
+	useEffect(() => {
 		const paperino = async (prevProps) => {
 			if (prevProps.asin !== props.asin) {
-        setIsLoading( true);
+				setIsLoading(true);
 			}
 		};
 	}, [props]);
 
-			try {
-				let response = await fetch("https://striveschool-api.herokuapp.com/api/comments/" + this.props.asin, {
-					headers: {
-						Authorization: "Bearer inserisci-qui-il-tuo-token",
-					},
-				});
-				console.log(response);
-				if (response.ok) {
-					let comments = await response.json();
-					setComments(comments);
-          setIsLoading(false);
-          setIsError(false);
-				} else {
-          setIsLoading(false);
-          setIsError(false);
-				}
-			} catch (error) {
-				console.log(error);
-        setIsLoading(false);
-        setIsError(false);
-			}
+	try {
+		let response = fetch("https://striveschool-api.herokuapp.com/api/comments/" + this.props.asin, {
+			headers: {
+				Authorization: "Bearer inserisci-qui-il-tuo-token",
+			},
+		});
+		console.log(response);
+		if (response.ok) {
+			let comments = response.json();
+			setComments(comments);
+			setIsLoading(false);
+			setIsError(false);
+		} else {
+			setIsLoading(false);
+			setIsError(false);
 		}
+	} catch (error) {
+		console.log(error);
+		setIsLoading(false);
+		setIsError(false);
+	}
 
 	return (
 		<div className="text-center">
@@ -82,5 +80,6 @@ const CommentArea = (props) => {
 			<CommentList commentsToShow={comments} />
 		</div>
 	);
+};
 
 export default CommentArea;
