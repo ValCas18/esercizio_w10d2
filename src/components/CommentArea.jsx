@@ -42,11 +42,15 @@ const CommentArea = (props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
 
-	componentDidUpdate = async (prevProps) => {
-		if (prevProps.asin !== this.props.asin) {
-			this.setState({
-				isLoading: true,
-			});
+
+  useEffect(() => {
+		const paperino = async (prevProps) => {
+			if (prevProps.asin !== props.asin) {
+        setIsLoading( true);
+			}
+		};
+	}, [props]);
+
 			try {
 				let response = await fetch("https://striveschool-api.herokuapp.com/api/comments/" + this.props.asin, {
 					headers: {
@@ -56,29 +60,27 @@ const CommentArea = (props) => {
 				console.log(response);
 				if (response.ok) {
 					let comments = await response.json();
-					this.setState({
-						comments: comments,
-						isLoading: false,
-						isError: false,
-					});
+					setComments(comments);
+          setIsLoading(false);
+          setIsError(false);
 				} else {
-					this.setState({ isLoading: false, isError: true });
+          setIsLoading(false);
+          setIsError(false);
 				}
 			} catch (error) {
 				console.log(error);
-				this.setState({ isLoading: false, isError: true });
+        setIsLoading(false);
+        setIsError(false);
 			}
 		}
-	};
 
 	return (
 		<div className="text-center">
-			{this.state.isLoading && <Loading />}
-			{this.state.isError && <Error />}
+			{setIsLoading(false) && <Loading />}
+			{setIsError && <Error />}
 			<AddComment asin={this.props.asin} />
-			<CommentList commentsToShow={this.state.comments} />
+			<CommentList commentsToShow={comments} />
 		</div>
 	);
-};
 
 export default CommentArea;
