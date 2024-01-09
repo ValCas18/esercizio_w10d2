@@ -17,16 +17,16 @@ const AddComment = (props) => {
 		elementId: this.props.asin,
 	});
 
-	const pippo = (prevProps) => {
-		if (prevProps.asin !== props.asin) {
-			setComment({
-				...comment,
-				elementId: props.asin,
-			});
-		}
-	};
-
-	useEffect(() => pippo(), [props]);
+	useEffect(() => {
+		const pippo = (prevProps) => {
+			if (prevProps.asin !== props.asin) {
+				setComment({
+					...comment,
+					elementId: props.asin,
+				});
+			}
+		};
+	}, [props]);
 
 	const sendComment = async (e) => {
 		e.preventDefault();
